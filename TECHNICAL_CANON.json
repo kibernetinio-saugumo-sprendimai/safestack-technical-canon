@@ -1,0 +1,23 @@
+{
+  "technical_canon_version": "1.0.0",
+  "status": "ACTIVE",
+  "root_reference_required": true,
+
+  "scope": {
+    "hash_registry_managed": true,
+    "architecture_versions_managed": true,
+    "manifest_schema_managed": true,
+    "crypto_implementations_managed": true
+  },
+
+  "constraints": {
+    "must_not_violate_root_principles": true,
+    "must_reference_root_version": "1.0.0"
+  },
+
+  "update_policy": {
+    "increment_version_required": true,
+    "requires_signature": true,
+    "requires_public_commit": true
+  }
+}

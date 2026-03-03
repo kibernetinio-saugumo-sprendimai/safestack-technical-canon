@@ -1,0 +1,10 @@
+SafeStack Root of Trust reference
+
+Root Repository:
+https://github.com/safestack-labs/safestack-root-of-trust
+
+Root Canon Version:
+1.0.0
+
+Root Genesis Hash:
+(Paste the SHA256 from GENESIS_HASH.txt here)
