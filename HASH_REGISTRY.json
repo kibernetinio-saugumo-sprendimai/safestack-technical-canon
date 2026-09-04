@@ -1,4 +1,12 @@
 {
   "registry_version": "1.0.0",
-  "artifacts": []
+  "status": "CANDIDATE",
+  "artifacts": [
+    {
+      "path": "TECHNICAL_CANON.json",
+      "sha256": "596ad60c745505440863e5e77a042ecf2e8506ae482555e03e07550704745bdf",
+      "signature": "TECHNICAL_CANON.json.asc",
+      "signature_algorithm": "OpenPGP"
+    }
+  ]
 }

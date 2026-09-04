@@ -1,10 +1,7 @@
-SafeStack Root of Trust reference
+SafeStack Root Canon reference
 
-Root Repository:
-https://github.com/safestack-labs/safestack-root-of-trust
-
-Root Canon Version:
-1.0.0
-
-Root Genesis Hash:
-(Paste the SHA256 from GENESIS_HASH.txt here)
+Repository: https://github.com/kibernetinio-saugumo-sprendimai/safestack-canon
+Root Canon version: 1.0.0
+Architecture artifact: safe_stack_architecture_map_v_2.md
+Architecture SHA256: AF41DD0BE635AE8AAC1AD1C3EA8CE34801BD020AFB4FC54C863BF4C021A3549D
+Registry: CANON_HASHES.md

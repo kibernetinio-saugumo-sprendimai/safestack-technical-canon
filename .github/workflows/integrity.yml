@@ -1,0 +1,27 @@
+name: Technical Canon integrity
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - run: sha256sum -c TECH_HASH.txt
+      - run: python -m json.tool TECHNICAL_CANON.json >/dev/null
+      - run: python -m json.tool HASH_REGISTRY.json >/dev/null
+      - name: Verify registry agrees with checksum
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = Path("TECH_HASH.txt").read_text().split()[0]
+          registry = json.loads(Path("HASH_REGISTRY.json").read_text())
+          assert registry["artifacts"][0]["sha256"] == expected
+          PY
