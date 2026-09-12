@@ -1,31 +1,18 @@
 {
   "registry_version": "1.1.0-candidate",
-  "status": "CANDIDATE",
+  "status": "PENDING_REHASH",
   "hash_algorithm": "SHA-256",
   "artifacts": [
-    {
-      "path": "AUTONOMOUS_CONSTITUTION.json",
-      "sha256": "12f02e7e71fb7e6c290c3e3364dfbcc9601963733359e219d5c99fab7f81652e",
-      "normative": true
-    },
-    {
-      "path": "CONSTITUTION_SCHEMA.json",
-      "sha256": "3298512af4d5e54d5012f71e7d99dd6b5b882427ee1011e4d6225451f9a72904",
-      "normative": true
-    },
-    {
-      "path": "STATE_MODEL.md",
-      "sha256": "4e1569b606b89414b111fe3f032b00e7125ee99a01e7da89c600e764438827e6",
-      "normative": true
-    },
-    {
-      "path": "TECHNICAL_CANON_1.1.0_CANDIDATE.json",
-      "sha256": "5a796e9c2bb82524cc7c5d8a613cdfc7f87f0ddf0bfb281a36651e78fa81a4bf",
-      "normative": true
-    }
+    {"path": "AUTONOMOUS_CONSTITUTION.json", "sha256": null, "normative": true, "hash_status": "PENDING_AFTER_FREEZE"},
+    {"path": "CONSTITUTION_SCHEMA.json", "sha256": null, "normative": true, "hash_status": "PENDING_AFTER_FREEZE"},
+    {"path": "STATE_MODEL.md", "sha256": null, "normative": true, "hash_status": "PENDING_AFTER_FREEZE"},
+    {"path": "ROOT_REFERENCE.json", "sha256": null, "normative": true, "hash_status": "PENDING_AFTER_FREEZE"},
+    {"path": "TECHNICAL_CANON_1.1.0_CANDIDATE.json", "sha256": null, "normative": true, "hash_status": "PENDING_AFTER_FREEZE"},
+    {"path": "VALIDATION_REPORT.json", "sha256": null, "normative": false, "hash_status": "PENDING_AFTER_FREEZE"}
   ],
   "activation_blockers": [
-    "ROOT_REFERENCE.txt contains an unresolved Genesis hash placeholder",
-    "Candidate technical canon is not yet cryptographically signed"
+    "NodeOS compatibility branch requires tests and replay validation",
+    "candidate artifacts must be frozen and rehashed",
+    "candidate technical canon requires authorized RSA-4096 signature"
   ]
 }
