@@ -1,0 +1,43 @@
+{
+  "technical_canon_version": "1.1.0",
+  "status": "CANDIDATE",
+  "supersedes_when_activated": "1.0.0",
+  "root_reference_required": true,
+  "scope": {
+    "hash_registry_managed": true,
+    "architecture_versions_managed": true,
+    "manifest_schema_managed": true,
+    "crypto_implementations_managed": true,
+    "autonomous_constitution_managed": true,
+    "constitutional_state_machine_managed": true
+  },
+  "constraints": {
+    "must_not_violate_root_principles": true,
+    "must_reference_root_version": "1.0.0",
+    "system_integrity_over_creator_authority": true,
+    "founder_override_prohibited": true,
+    "external_platform_authority_prohibited": true,
+    "fail_closed_required": true,
+    "deterministic_replay_required": true
+  },
+  "normative_artifacts": [
+    "AUTONOMOUS_CONSTITUTION.json",
+    "CONSTITUTION_SCHEMA.json",
+    "STATE_MODEL.md"
+  ],
+  "update_policy": {
+    "increment_version_required": true,
+    "requires_signature": true,
+    "requires_public_commit": true,
+    "requires_local_node_validation": true,
+    "requires_replay_tests": true,
+    "force_accept_prohibited": true
+  },
+  "activation_requirements": {
+    "root_reference_must_be_resolved": true,
+    "candidate_signature_required": true,
+    "hash_registry_must_match_artifacts": true,
+    "schema_validation_required": true,
+    "constitutional_audit_required": true
+  }
+}
