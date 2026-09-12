@@ -12,8 +12,12 @@
     "layers",
     "decision_engine",
     "states",
+    "state_transitions",
+    "recovery_policy",
     "amendment_policy",
-    "external_platform_policy"
+    "external_platform_policy",
+    "priority_order",
+    "destructive_policy"
   ],
   "properties": {
     "constitution_version": {
@@ -22,7 +26,12 @@
     },
     "status": {
       "type": "string",
-      "enum": ["DRAFT", "CANDIDATE", "ACTIVE", "SUPERSEDED"]
+      "enum": [
+        "DRAFT",
+        "CANDIDATE",
+        "ACTIVE",
+        "SUPERSEDED"
+      ]
     },
     "authority_model": {
       "type": "object",
@@ -35,91 +44,158 @@
         "principles"
       ],
       "properties": {
-        "node_local_authority": { "const": true },
-        "founder_override": { "const": false },
-        "backdoor": { "const": false },
-        "external_sovereignty": { "const": false },
+        "node_local_authority": {
+          "const": true
+        },
+        "founder_override": {
+          "const": false
+        },
+        "backdoor": {
+          "const": false
+        },
+        "external_sovereignty": {
+          "const": false
+        },
         "principles": {
-          "type": "array",
-          "minItems": 6,
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "enum": [
-              "AUTHORITY != AUTHOR",
-              "SIGNATURE != PERMISSION",
-              "UNKNOWN != SAFE",
-              "AUTONOMY != CHAOS",
-              "EVOLUTION != OVERRIDE",
-              "INTEGRITY > AVAILABILITY",
-              "SYSTEM_INTEGRITY > CREATOR_AUTHORITY"
-            ]
-          }
+          "const": [
+            "AUTHORITY != AUTHOR",
+            "SIGNATURE != PERMISSION",
+            "UNKNOWN != SAFE",
+            "AUTONOMY != CHAOS",
+            "EVOLUTION != OVERRIDE",
+            "INTEGRITY > AVAILABILITY",
+            "SYSTEM_INTEGRITY > CREATOR_AUTHORITY"
+          ]
         }
       }
     },
     "invariants": {
-      "type": "array",
-      "minItems": 9,
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["id", "name", "enforced"],
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^I-[0-9]{2}$"
-          },
-          "name": {
-            "type": "string",
-            "enum": [
-              "Identity Integrity",
-              "Manifest Verification",
-              "Self-Integrity",
-              "Fail-Closed",
-              "No External Sovereignty",
-              "No Override",
-              "No Hidden Authority",
-              "Auditability",
-              "Determinism"
-            ]
-          },
-          "enforced": { "const": true }
+      "const": [
+        {
+          "id": "I-01",
+          "name": "Identity Integrity",
+          "enforced": true
+        },
+        {
+          "id": "I-02",
+          "name": "Manifest Verification",
+          "enforced": true
+        },
+        {
+          "id": "I-03",
+          "name": "Self-Integrity",
+          "enforced": true
+        },
+        {
+          "id": "I-04",
+          "name": "Fail-Closed",
+          "enforced": true
+        },
+        {
+          "id": "I-05",
+          "name": "No External Sovereignty",
+          "enforced": true
+        },
+        {
+          "id": "I-06",
+          "name": "No Override",
+          "enforced": true
+        },
+        {
+          "id": "I-07",
+          "name": "No Hidden Authority",
+          "enforced": true
+        },
+        {
+          "id": "I-08",
+          "name": "Auditability",
+          "enforced": true
+        },
+        {
+          "id": "I-09",
+          "name": "Determinism",
+          "enforced": true
         }
-      }
+      ]
     },
     "layers": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["layer_0", "layer_1", "layer_2"],
+      "required": [
+        "layer_0",
+        "layer_1",
+        "layer_2"
+      ],
       "properties": {
         "layer_0": {
           "type": "object",
-          "required": ["name", "mutable"],
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "mutable",
+            "scope"
+          ],
           "properties": {
-            "name": { "const": "Immutable Constitutional Core" },
-            "mutable": { "const": false }
+            "name": {
+              "const": "Immutable Constitutional Core"
+            },
+            "mutable": {
+              "const": false
+            },
+            "scope": {
+              "const": [
+                "AUTHORITY_MODEL",
+                "INVARIANTS",
+                "FAIL_CLOSED",
+                "NO_OVERRIDE",
+                "AUDITABILITY",
+                "DETERMINISM"
+              ]
+            }
           }
         },
         "layer_1": {
           "type": "object",
-          "required": ["name", "mutable", "constraints"],
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "mutable",
+            "constraints"
+          ],
           "properties": {
-            "name": { "const": "Constitutional Evolution Layer" },
-            "mutable": { "const": true },
+            "name": {
+              "const": "Constitutional Evolution Layer"
+            },
+            "mutable": {
+              "const": true
+            },
             "constraints": {
-              "type": "array",
-              "contains": { "const": "MUST_NOT_VIOLATE_LAYER_0" }
+              "const": [
+                "MUST_NOT_VIOLATE_LAYER_0",
+                "CRYPTOGRAPHIC_AGILITY_ALLOWED",
+                "VERIFICATION_REQUIREMENT_MUST_REMAIN"
+              ]
             }
           }
         },
         "layer_2": {
           "type": "object",
-          "required": ["name", "mutable", "authority_limit"],
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "mutable",
+            "authority_limit"
+          ],
           "properties": {
-            "name": { "const": "Operational Layer" },
-            "mutable": { "const": true },
-            "authority_limit": { "const": "CANNOT_MODIFY_CONSTITUTION" }
+            "name": {
+              "const": "Operational Layer"
+            },
+            "mutable": {
+              "const": true
+            },
+            "authority_limit": {
+              "const": "CANNOT_MODIFY_CONSTITUTION"
+            }
           }
         }
       }
@@ -127,12 +203,21 @@
     "decision_engine": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["mode", "authoritative_llm", "pipeline", "outcomes", "replay_required"],
+      "required": [
+        "mode",
+        "authoritative_llm",
+        "pipeline",
+        "outcomes",
+        "replay_required"
+      ],
       "properties": {
-        "mode": { "const": "DETERMINISTIC_LOCAL_POLICY" },
-        "authoritative_llm": { "const": false },
+        "mode": {
+          "const": "DETERMINISTIC_LOCAL_POLICY"
+        },
+        "authoritative_llm": {
+          "const": false
+        },
         "pipeline": {
-          "type": "array",
           "const": [
             "IDENTITY_CHECK",
             "SIGNATURE_CHECK",
@@ -145,14 +230,19 @@
           ]
         },
         "outcomes": {
-          "type": "array",
-          "const": ["ACCEPT", "REJECT", "QUARANTINE", "DEFER"]
+          "const": [
+            "ACCEPT",
+            "REJECT",
+            "QUARANTINE",
+            "DEFER"
+          ]
         },
-        "replay_required": { "const": true }
+        "replay_required": {
+          "const": true
+        }
       }
     },
     "states": {
-      "type": "array",
       "const": [
         "INIT",
         "AWARE",
@@ -162,6 +252,49 @@
         "RECOVERY",
         "TERMINAL"
       ]
+    },
+    "state_transitions": {
+      "const": {
+        "INIT": [
+          "AWARE",
+          "QUARANTINE"
+        ],
+        "AWARE": [
+          "DEGRADED",
+          "QUARANTINE",
+          "LOCKDOWN"
+        ],
+        "DEGRADED": [
+          "AWARE",
+          "QUARANTINE",
+          "LOCKDOWN"
+        ],
+        "QUARANTINE": [
+          "AWARE",
+          "LOCKDOWN",
+          "RECOVERY"
+        ],
+        "LOCKDOWN": [
+          "RECOVERY",
+          "TERMINAL"
+        ],
+        "RECOVERY": [
+          "AWARE",
+          "QUARANTINE",
+          "LOCKDOWN",
+          "TERMINAL"
+        ],
+        "TERMINAL": []
+      }
+    },
+    "recovery_policy": {
+      "const": {
+        "predeclared_only": true,
+        "override_equivalent_prohibited": true,
+        "layer_0_validation_required": true,
+        "local_validation_required": true,
+        "audit_record_required": true
+      }
     },
     "amendment_policy": {
       "type": "object",
@@ -174,11 +307,16 @@
         "node_may_reject"
       ],
       "properties": {
-        "allowed": { "const": true },
-        "force_accept": { "const": false },
-        "signature_is_permission": { "const": false },
+        "allowed": {
+          "const": true
+        },
+        "force_accept": {
+          "const": false
+        },
+        "signature_is_permission": {
+          "const": false
+        },
         "requirements": {
-          "type": "array",
           "const": [
             "DECLARE_PREVIOUS_VERSION",
             "DECLARE_NEW_VERSION",
@@ -189,17 +327,35 @@
             "PASS_LOCAL_NODE_VALIDATION"
           ]
         },
-        "node_may_reject": { "const": true }
+        "node_may_reject": {
+          "const": true
+        }
       }
     },
     "external_platform_policy": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["github_authoritative", "cloud_required", "node_must_self_verify_offline"],
-      "properties": {
-        "github_authoritative": { "const": false },
-        "cloud_required": { "const": false },
-        "node_must_self_verify_offline": { "const": true }
+      "const": {
+        "github_authoritative": false,
+        "cloud_required": false,
+        "node_must_self_verify_offline": true
+      }
+    },
+    "priority_order": {
+      "const": [
+        "CONSTITUTIONAL_INTEGRITY",
+        "IDENTITY_INTEGRITY",
+        "TRUST_CHAIN_VALIDITY",
+        "SAFE_STATE",
+        "AUDITABILITY",
+        "AVAILABILITY",
+        "PERFORMANCE",
+        "CONVENIENCE"
+      ]
+    },
+    "destructive_policy": {
+      "const": {
+        "self_erasure_default": false,
+        "terminal_behavior": "SECURE_REFUSAL",
+        "preserve_audit_evidence": true
       }
     }
   }
