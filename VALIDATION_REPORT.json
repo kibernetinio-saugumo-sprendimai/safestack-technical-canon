@@ -1,5 +1,5 @@
 {
-  "validation_report_version": "1.0.0",
+  "validation_report_version": "1.0.1",
   "candidate": "SafeStack Autonomous Constitution v0.1",
   "technical_canon_candidate": "1.1.0",
   "decision": "DEFER",
@@ -11,11 +11,13 @@
     {"id": "V-05", "check": "root_rule_alignment", "result": "PASS"},
     {"id": "V-06", "check": "recovery_after_autonomy_severance_prohibited", "result": "PASS"},
     {"id": "V-07", "check": "document_level_deterministic_replay", "result": "PASS"},
-    {"id": "V-08", "check": "node_runtime_compatibility", "result": "FAIL", "detail": "Current node-os main silently REBIRTHs missing identity and can invoke destructive SelfDestruct on manifest violation."},
-    {"id": "V-09", "check": "candidate_signature", "result": "PENDING"}
+    {"id": "V-08", "check": "node_runtime_compatibility", "result": "PENDING_TEST", "detail": "Compatibility branch compat/autonomous-constitution-v0.1 removes implicit startup REBIRTH and automatic destructive self-erasure path. Build, tests and runtime replay are still required."},
+    {"id": "V-09", "check": "candidate_hash_registry", "result": "PENDING", "detail": "Hashes intentionally invalidated until compatibility freeze."},
+    {"id": "V-10", "check": "candidate_signature", "result": "PENDING"}
   ],
   "activation_blockers": [
-    "node-os runtime must remove implicit identity rebirth and destructive manifest-violation behavior",
+    "run NodeOS compatibility tests and deterministic replay validation",
+    "freeze candidate artifacts and regenerate SHA-256 registry",
     "TECHNICAL_CANON_1.1.0_CANDIDATE.json requires an authorized RSA-4096 signature"
   ]
 }
