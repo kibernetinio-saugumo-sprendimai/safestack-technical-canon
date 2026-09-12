@@ -1,0 +1,11 @@
+{
+  "root_repository": "safestack-labs/safestack-root-of-trust",
+  "root_canon_path": "ROOT_CANON.json",
+  "root_canon_version": "1.0.0",
+  "root_canon_status": "ACTIVE",
+  "genesis_hash_file": "GENESIS_HASH.txt",
+  "genesis_hash_algorithm": "SHA-256",
+  "genesis_hash": "76e14917fd96326f36870c77f1375eb2cda54870955e34957585fb6ffdc199d7",
+  "root_canon_git_blob_sha": "e0b6f73d84f87a51f81c346e10dc1387156e1b15",
+  "root_signature_path": "ROOT_CANON.json.asc"
+}
