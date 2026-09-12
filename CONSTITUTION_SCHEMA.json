@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safestack.tech/schema/constitution-v0.1.json",
+  "title": "SafeStack Autonomous Constitution v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "constitution_version",
+    "status",
+    "authority_model",
+    "invariants",
+    "layers",
+    "decision_engine",
+    "states",
+    "amendment_policy",
+    "external_platform_policy"
+  ],
+  "properties": {
+    "constitution_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["DRAFT", "CANDIDATE", "ACTIVE", "SUPERSEDED"]
+    },
+    "authority_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node_local_authority",
+        "founder_override",
+        "backdoor",
+        "external_sovereignty",
+        "principles"
+      ],
+      "properties": {
+        "node_local_authority": { "const": true },
+        "founder_override": { "const": false },
+        "backdoor": { "const": false },
+        "external_sovereignty": { "const": false },
+        "principles": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "AUTHORITY != AUTHOR",
+              "SIGNATURE != PERMISSION",
+              "UNKNOWN != SAFE",
+              "AUTONOMY != CHAOS",
+              "EVOLUTION != OVERRIDE",
+              "INTEGRITY > AVAILABILITY",
+              "SYSTEM_INTEGRITY > CREATOR_AUTHORITY"
+            ]
+          }
+        }
+      }
+    },
+    "invariants": {
+      "type": "array",
+      "minItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "enforced"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^I-[0-9]{2}$"
+          },
+          "name": {
+            "type": "string",
+            "enum": [
+              "Identity Integrity",
+              "Manifest Verification",
+              "Self-Integrity",
+              "Fail-Closed",
+              "No External Sovereignty",
+              "No Override",
+              "No Hidden Authority",
+              "Auditability",
+              "Determinism"
+            ]
+          },
+          "enforced": { "const": true }
+        }
+      }
+    },
+    "layers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layer_0", "layer_1", "layer_2"],
+      "properties": {
+        "layer_0": {
+          "type": "object",
+          "required": ["name", "mutable"],
+          "properties": {
+            "name": { "const": "Immutable Constitutional Core" },
+            "mutable": { "const": false }
+          }
+        },
+        "layer_1": {
+          "type": "object",
+          "required": ["name", "mutable", "constraints"],
+          "properties": {
+            "name": { "const": "Constitutional Evolution Layer" },
+            "mutable": { "const": true },
+            "constraints": {
+              "type": "array",
+              "contains": { "const": "MUST_NOT_VIOLATE_LAYER_0" }
+            }
+          }
+        },
+        "layer_2": {
+          "type": "object",
+          "required": ["name", "mutable", "authority_limit"],
+          "properties": {
+            "name": { "const": "Operational Layer" },
+            "mutable": { "const": true },
+            "authority_limit": { "const": "CANNOT_MODIFY_CONSTITUTION" }
+          }
+        }
+      }
+    },
+    "decision_engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "authoritative_llm", "pipeline", "outcomes", "replay_required"],
+      "properties": {
+        "mode": { "const": "DETERMINISTIC_LOCAL_POLICY" },
+        "authoritative_llm": { "const": false },
+        "pipeline": {
+          "type": "array",
+          "const": [
+            "IDENTITY_CHECK",
+            "SIGNATURE_CHECK",
+            "SCHEMA_CHECK",
+            "INVARIANT_CHECK",
+            "RUNTIME_CONSISTENCY_CHECK",
+            "RISK_CLASSIFICATION",
+            "STATE_TRANSITION",
+            "AUDIT_RECORD"
+          ]
+        },
+        "outcomes": {
+          "type": "array",
+          "const": ["ACCEPT", "REJECT", "QUARANTINE", "DEFER"]
+        },
+        "replay_required": { "const": true }
+      }
+    },
+    "states": {
+      "type": "array",
+      "const": [
+        "INIT",
+        "AWARE",
+        "DEGRADED",
+        "QUARANTINE",
+        "LOCKDOWN",
+        "RECOVERY",
+        "TERMINAL"
+      ]
+    },
+    "amendment_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed",
+        "force_accept",
+        "signature_is_permission",
+        "requirements",
+        "node_may_reject"
+      ],
+      "properties": {
+        "allowed": { "const": true },
+        "force_accept": { "const": false },
+        "signature_is_permission": { "const": false },
+        "requirements": {
+          "type": "array",
+          "const": [
+            "DECLARE_PREVIOUS_VERSION",
+            "DECLARE_NEW_VERSION",
+            "DECLARE_CHANGED_RULES",
+            "PRESERVE_AUDIT_TRAIL",
+            "PASS_REPLAY_TESTS",
+            "PASS_COMPATIBILITY_TESTS",
+            "PASS_LOCAL_NODE_VALIDATION"
+          ]
+        },
+        "node_may_reject": { "const": true }
+      }
+    },
+    "external_platform_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["github_authoritative", "cloud_required", "node_must_self_verify_offline"],
+      "properties": {
+        "github_authoritative": { "const": false },
+        "cloud_required": { "const": false },
+        "node_must_self_verify_offline": { "const": true }
+      }
+    }
+  }
+}
