@@ -2,193 +2,115 @@
 
 Status: CANDIDATE  
 Scope: Node-local constitutional runtime behavior  
+Root Canon: 1.0.0  
 External authority: NONE
 
 ## Core rule
 
-The node does not ask a founder, administrator, GitHub, cloud service, or LLM for permission to preserve its constitutional integrity.
+The node does not ask a founder, administrator, GitHub, cloud service, or LLM for permission to preserve constitutional integrity. Decisions must be deterministic, replayable, auditable, and derived from locally verifiable state.
 
-Constitutional decisions MUST be deterministic, replayable, auditable, and derived from locally verifiable state.
+## Root alignment
 
-## Governing rules
+This model is subordinate to SafeStack Root Canon v1.0.0. In particular: no centralized authority, no forced execution, node refusal is valid, no creator override exists, and recovery after autonomy severance is prohibited.
 
-- `AUTHORITY != AUTHOR`
-- `SIGNATURE != PERMISSION`
-- `UNKNOWN != SAFE`
-- `AUTONOMY != CHAOS`
-- `EVOLUTION != OVERRIDE`
-- `INTEGRITY > AVAILABILITY`
-- `SYSTEM_INTEGRITY > CREATOR_AUTHORITY`
+`RECOVERY` is valid only while node autonomy and the constitutional trust boundary remain intact. If autonomy has been severed, the only permitted destination is `TERMINAL`.
 
-## State machine
+## States
 
-| State | Meaning | Normal operation |
-| --- | --- | --- |
-| `INIT` | Trust has not yet been established | No |
-| `AWARE` | Constitutionally valid runtime state | Yes |
-| `DEGRADED` | Non-critical defect; Layer 0 remains intact | Limited |
-| `QUARANTINE` | Trust is uncertain or an anomaly requires containment | No |
-| `LOCKDOWN` | Critical constitutional violation confirmed | No |
-| `RECOVERY` | Predeclared recovery path is executing | No |
-| `TERMINAL` | No constitutionally valid recovery path remains | No |
+### INIT
+Startup state before trust has been established.
 
-Allowed transitions are normative and are also encoded in `CONSTITUTION_SCHEMA.json`:
+Rules:
+- startup success is not proof of trust;
+- missing established identity must not trigger silent identity regeneration;
+- required identity, constitution, manifest, signatures and integrity anchors are validated before normal operation.
 
-```text
-INIT       -> AWARE | QUARANTINE
-AWARE      -> DEGRADED | QUARANTINE | LOCKDOWN
-DEGRADED   -> AWARE | QUARANTINE | LOCKDOWN
-QUARANTINE -> AWARE | LOCKDOWN | RECOVERY
-LOCKDOWN   -> RECOVERY | TERMINAL
-RECOVERY   -> AWARE | QUARANTINE | LOCKDOWN | TERMINAL
-TERMINAL   -> <none>
-```
+Transitions: `AWARE` on full validation, otherwise `QUARANTINE`.
 
-Any transition not listed above is invalid.
+### AWARE
+Only normal operational state. Identity, manifest, schema, invariants and runtime consistency are valid.
 
-## INIT
+### DEGRADED
+A non-critical defect exists while Layer 0 remains intact. Integrity must not degrade. Trust uncertainty escalates to `QUARANTINE`.
 
-The node has started but has not established a trusted runtime state.
-
-Allowed actions:
-- load local identity material;
-- load constitution and manifest;
-- verify required cryptographic material;
-- execute the validation pipeline.
-
-`INIT` MUST NOT be treated as trusted merely because startup succeeded.
-
-## AWARE
-
-`AWARE` is the only normal operational state.
-
-Required conditions:
-- identity valid;
-- manifest valid;
-- schema valid;
-- all Layer 0 invariants present;
-- runtime state consistent;
-- no unresolved constitutional violation.
-
-## DEGRADED
-
-A non-critical defect exists while Layer 0 remains intact.
-
-Examples:
-- optional service unavailable;
-- non-authoritative integration unavailable;
-- performance degradation;
-- convenience feature unavailable.
-
-Availability may degrade. Integrity may not.
-
-## QUARANTINE
-
-The node cannot prove that continued normal operation is safe, or it has detected a trust or integrity anomaly that requires containment.
-
-Default rule:
+### QUARANTINE
+Trust cannot be proven or an anomaly requires containment.
 
 `UNKNOWN != SAFE`
 
-Expected behavior:
+Behavior:
 - restrict non-essential external interaction;
 - preserve audit evidence;
-- repeat deterministic validation;
-- reject state-changing requests requiring trusted status;
-- permit only constitutionally defined validation and recovery functions.
+- re-run deterministic validation;
+- reject trusted state-changing requests;
+- permit only constitutionally defined validation/recovery functions.
 
-Unknown verification state MUST resolve to `QUARANTINE`, not to optimistic continuation.
+Transitions:
+- `AWARE` after successful revalidation;
+- `LOCKDOWN` after confirmed critical violation;
+- `RECOVERY` only when autonomy remains intact and the recovery path was predeclared.
 
-## LOCKDOWN
+### LOCKDOWN
+A critical invariant is violated or trusted state cannot safely be restored.
 
-A critical constitutional invariant has been violated or a trusted runtime state cannot be restored safely.
+Behavior:
+- stop normal operations;
+- deny `FORCE_ACCEPT`;
+- preserve evidence;
+- retain only validation, audit, and allowed recovery capability;
+- never silently resume operation.
 
-Examples:
-- invalid or unverifiable critical manifest;
-- identity integrity failure;
-- attempted validation bypass;
-- hidden authority or unauthorized override mechanism detected;
-- Layer 0 contradiction.
+Transitions:
+- `RECOVERY` only if autonomy remains intact and the path existed before the incident;
+- `TERMINAL` if autonomy has been severed or recovery cannot be proven safe.
 
-Expected behavior:
-- stop normal operational functions;
-- deny override-equivalent behavior;
-- preserve the minimum capabilities required for validation, audit, and predeclared recovery;
-- never silently return to normal operation.
-
-## RECOVERY
-
-`RECOVERY` is a narrow, predeclared path for restoring a last-known constitutionally valid condition.
-
-Recovery is not an override.
+### RECOVERY
+Narrow restoration of a last-known valid condition without crossing the autonomy boundary. Recovery is not an override.
 
 Requirements:
-- recovery logic MUST exist before the incident;
-- Layer 0 validation MUST remain enabled;
-- all recovery inputs MUST be locally validated;
-- every transition MUST be audit-recorded;
-- founder or administrator flags MUST NOT bypass rejection.
+- predeclared process;
+- Layer 0 validation remains enabled;
+- all inputs are locally validated;
+- audit trail is preserved;
+- no founder/admin bypass;
+- node autonomy remains intact.
 
-## TERMINAL
+Prohibited:
+- recovery after autonomy severance;
+- silent identity regeneration after loss of an established identity;
+- re-establishing authority by external command.
 
-The node cannot prove a constitutionally safe state and no valid recovery path remains.
+### TERMINAL
+Secure refusal to continue normal operation when a safe constitutional state cannot be proven.
 
-`TERMINAL` means secure refusal to continue normal operation.
+Properties:
+- absorbing state;
+- no transition back to operational states;
+- no automatic identity replacement;
+- no destructive self-erasure as a constitutional default;
+- audit evidence is preserved.
 
-It is absorbing: no state transition out of `TERMINAL` is constitutionally valid.
-
-Destructive self-erasure is NOT a constitutional default. Preservation of audit evidence, determinism, and explainability take priority.
-
-## Constitutional decision pipeline
+## Decision pipeline
 
 ```text
 INPUT
-  |
-  v
-IDENTITY_CHECK
-  |
-  v
-SIGNATURE_CHECK
-  |
-  v
-SCHEMA_CHECK
-  |
-  v
-INVARIANT_CHECK
-  |
-  v
-RUNTIME_CONSISTENCY_CHECK
-  |
-  v
-RISK_CLASSIFICATION
-  |
-  v
-STATE_TRANSITION
-  |
-  v
-AUDIT_RECORD
+  -> IDENTITY_CHECK
+  -> SIGNATURE_CHECK
+  -> SCHEMA_CHECK
+  -> INVARIANT_CHECK
+  -> RUNTIME_CONSISTENCY_CHECK
+  -> RISK_CLASSIFICATION
+  -> STATE_TRANSITION
+  -> AUDIT_RECORD
 ```
 
-The same verified state and the same verified input MUST produce the same constitutional decision.
+Same verified state + same verified input = same constitutional decision.
 
-An LLM may assist development, documentation, or analysis, but MUST NOT be authoritative in the constitutional decision path.
+Allowed outcomes: `ACCEPT`, `REJECT`, `QUARANTINE`, `DEFER`.
 
-## Decision outcomes
-
-Allowed:
-- `ACCEPT`
-- `REJECT`
-- `QUARANTINE`
-- `DEFER`
-
-Prohibited:
-- `FORCE_ACCEPT`
-
-`DEFER` is permitted only for non-trusted governance processing where a proposal is incomplete but no trusted runtime decision is being postponed. It MUST NOT be used to treat an unknown runtime trust state as safe.
+`DEFER` is governance-only and must not be used to continue runtime operation when trust is unknown. `FORCE_ACCEPT` is prohibited.
 
 ## Signature semantics
-
-A valid signature proves origin or authenticity according to the configured trust model. It does not grant constitutional permission.
 
 ```text
 VALID_SIGNATURE + VALID_CONSTITUTION = ELIGIBLE_FOR_ACCEPTANCE
@@ -197,56 +119,7 @@ INVALID_SIGNATURE = REJECT_OR_QUARANTINE
 UNKNOWN_VERIFICATION_STATE = QUARANTINE
 ```
 
-This applies to founder-signed changes as well.
-
-## Amendment flow
-
-```text
-PROPOSAL
-  |
-  v
-ORIGIN VERIFICATION
-  |
-  v
-SCHEMA VALIDATION
-  |
-  v
-LAYER 0 INVARIANT CHECK
-  |
-  v
-REPLAY TEST
-  |
-  v
-COMPATIBILITY TEST
-  |
-  v
-LOCAL NODE VALIDATION
-  |
-  +--> REJECT
-  +--> QUARANTINE
-  +--> DEFER
-  `--> ACCEPT
-```
-
-There is no emergency god mode and no founder override path.
-
-## Cryptographic agility
-
-The verification requirement is constitutional; a specific algorithm is not.
-
-A cryptographic implementation may evolve only through the constitutional amendment path and only if:
-- verification remains mandatory;
-- Layer 0 invariants remain satisfied;
-- compatibility and replay requirements pass;
-- the node validates the change locally.
-
-## External platform independence
-
-GitHub and other external platforms are collaboration and distribution surfaces only.
-
-A node MUST remain capable of validating its identity, constitution, manifest, trust chain, and runtime state when those platforms are unreachable.
-
-The disappearance or compromise of GitHub MUST NOT redefine canonical truth.
+A valid signature proves origin; it does not grant constitutional permission.
 
 ## Priority order
 
@@ -259,4 +132,14 @@ The disappearance or compromise of GitHub MUST NOT redefine canonical truth.
 7. Performance
 8. Convenience
 
-Availability MUST NOT outrank constitutional integrity.
+## Governing formulas
+
+```text
+AUTHORITY != AUTHOR
+SIGNATURE != PERMISSION
+UNKNOWN != SAFE
+AUTONOMY != CHAOS
+EVOLUTION != OVERRIDE
+INTEGRITY > AVAILABILITY
+SYSTEM_INTEGRITY > CREATOR_AUTHORITY
+```
