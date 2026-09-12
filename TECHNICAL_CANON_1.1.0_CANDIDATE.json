@@ -3,6 +3,11 @@
   "status": "CANDIDATE",
   "supersedes_when_activated": "1.0.0",
   "root_reference_required": true,
+  "root_reference": {
+    "version": "1.0.0",
+    "genesis_hash": "76e14917fd96326f36870c77f1375eb2cda54870955e34957585fb6ffdc199d7",
+    "reference_file": "ROOT_REFERENCE.json"
+  },
   "scope": {
     "hash_registry_managed": true,
     "architecture_versions_managed": true,
@@ -18,16 +23,20 @@
     "founder_override_prohibited": true,
     "external_platform_authority_prohibited": true,
     "fail_closed_required": true,
-    "deterministic_replay_required": true
+    "deterministic_replay_required": true,
+    "recovery_after_autonomy_severance_prohibited": true,
+    "destructive_self_erasure_not_default": true
   },
   "normative_artifacts": [
     "AUTONOMOUS_CONSTITUTION.json",
     "CONSTITUTION_SCHEMA.json",
-    "STATE_MODEL.md"
+    "STATE_MODEL.md",
+    "ROOT_REFERENCE.json"
   ],
   "update_policy": {
     "increment_version_required": true,
     "requires_signature": true,
+    "authorized_signature_scheme": "RSA-4096",
     "requires_public_commit": true,
     "requires_local_node_validation": true,
     "requires_replay_tests": true,
@@ -38,6 +47,7 @@
     "candidate_signature_required": true,
     "hash_registry_must_match_artifacts": true,
     "schema_validation_required": true,
-    "constitutional_audit_required": true
+    "constitutional_audit_required": true,
+    "node_runtime_compatibility_required": true
   }
 }
