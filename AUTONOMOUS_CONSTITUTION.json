@@ -1,6 +1,17 @@
 {
   "constitution_version": "0.1.0",
   "status": "CANDIDATE",
+  "root_reference": {
+    "root_repository": "safestack-labs/safestack-root-of-trust",
+    "root_canon_path": "ROOT_CANON.json",
+    "root_canon_version": "1.0.0",
+    "root_canon_status": "ACTIVE",
+    "genesis_hash_file": "GENESIS_HASH.txt",
+    "genesis_hash_algorithm": "SHA-256",
+    "genesis_hash": "76e14917fd96326f36870c77f1375eb2cda54870955e34957585fb6ffdc199d7",
+    "root_canon_git_blob_sha": "e0b6f73d84f87a51f81c346e10dc1387156e1b15",
+    "root_signature_path": "ROOT_CANON.json.asc"
+  },
   "authority_model": {
     "node_local_authority": true,
     "founder_override": false,
@@ -17,73 +28,26 @@
     ]
   },
   "invariants": [
-    {
-      "id": "I-01",
-      "name": "Identity Integrity",
-      "enforced": true
-    },
-    {
-      "id": "I-02",
-      "name": "Manifest Verification",
-      "enforced": true
-    },
-    {
-      "id": "I-03",
-      "name": "Self-Integrity",
-      "enforced": true
-    },
-    {
-      "id": "I-04",
-      "name": "Fail-Closed",
-      "enforced": true
-    },
-    {
-      "id": "I-05",
-      "name": "No External Sovereignty",
-      "enforced": true
-    },
-    {
-      "id": "I-06",
-      "name": "No Override",
-      "enforced": true
-    },
-    {
-      "id": "I-07",
-      "name": "No Hidden Authority",
-      "enforced": true
-    },
-    {
-      "id": "I-08",
-      "name": "Auditability",
-      "enforced": true
-    },
-    {
-      "id": "I-09",
-      "name": "Determinism",
-      "enforced": true
-    }
+    {"id": "I-01", "name": "Identity Integrity", "enforced": true},
+    {"id": "I-02", "name": "Manifest Verification", "enforced": true},
+    {"id": "I-03", "name": "Self-Integrity", "enforced": true},
+    {"id": "I-04", "name": "Fail-Closed", "enforced": true},
+    {"id": "I-05", "name": "No External Sovereignty", "enforced": true},
+    {"id": "I-06", "name": "No Override", "enforced": true},
+    {"id": "I-07", "name": "No Hidden Authority", "enforced": true},
+    {"id": "I-08", "name": "Auditability", "enforced": true},
+    {"id": "I-09", "name": "Determinism", "enforced": true}
   ],
   "layers": {
     "layer_0": {
       "name": "Immutable Constitutional Core",
       "mutable": false,
-      "scope": [
-        "AUTHORITY_MODEL",
-        "INVARIANTS",
-        "FAIL_CLOSED",
-        "NO_OVERRIDE",
-        "AUDITABILITY",
-        "DETERMINISM"
-      ]
+      "scope": ["AUTHORITY_MODEL", "INVARIANTS", "FAIL_CLOSED", "NO_OVERRIDE", "AUDITABILITY", "DETERMINISM"]
     },
     "layer_1": {
       "name": "Constitutional Evolution Layer",
       "mutable": true,
-      "constraints": [
-        "MUST_NOT_VIOLATE_LAYER_0",
-        "CRYPTOGRAPHIC_AGILITY_ALLOWED",
-        "VERIFICATION_REQUIREMENT_MUST_REMAIN"
-      ]
+      "constraints": ["MUST_NOT_VIOLATE_LAYER_0", "CRYPTOGRAPHIC_AGILITY_ALLOWED", "VERIFICATION_REQUIREMENT_MUST_REMAIN"]
     },
     "layer_2": {
       "name": "Operational Layer",
@@ -94,63 +58,18 @@
   "decision_engine": {
     "mode": "DETERMINISTIC_LOCAL_POLICY",
     "authoritative_llm": false,
-    "pipeline": [
-      "IDENTITY_CHECK",
-      "SIGNATURE_CHECK",
-      "SCHEMA_CHECK",
-      "INVARIANT_CHECK",
-      "RUNTIME_CONSISTENCY_CHECK",
-      "RISK_CLASSIFICATION",
-      "STATE_TRANSITION",
-      "AUDIT_RECORD"
-    ],
-    "outcomes": [
-      "ACCEPT",
-      "REJECT",
-      "QUARANTINE",
-      "DEFER"
-    ],
+    "pipeline": ["IDENTITY_CHECK", "SIGNATURE_CHECK", "SCHEMA_CHECK", "INVARIANT_CHECK", "RUNTIME_CONSISTENCY_CHECK", "RISK_CLASSIFICATION", "STATE_TRANSITION", "AUDIT_RECORD"],
+    "outcomes": ["ACCEPT", "REJECT", "QUARANTINE", "DEFER"],
     "replay_required": true
   },
-  "states": [
-    "INIT",
-    "AWARE",
-    "DEGRADED",
-    "QUARANTINE",
-    "LOCKDOWN",
-    "RECOVERY",
-    "TERMINAL"
-  ],
+  "states": ["INIT", "AWARE", "DEGRADED", "QUARANTINE", "LOCKDOWN", "RECOVERY", "TERMINAL"],
   "state_transitions": {
-    "INIT": [
-      "AWARE",
-      "QUARANTINE"
-    ],
-    "AWARE": [
-      "DEGRADED",
-      "QUARANTINE",
-      "LOCKDOWN"
-    ],
-    "DEGRADED": [
-      "AWARE",
-      "QUARANTINE",
-      "LOCKDOWN"
-    ],
-    "QUARANTINE": [
-      "AWARE",
-      "LOCKDOWN",
-      "RECOVERY"
-    ],
-    "LOCKDOWN": [
-      "RECOVERY",
-      "TERMINAL"
-    ],
-    "RECOVERY": [
-      "AWARE",
-      "QUARANTINE",
-      "LOCKDOWN",
-      "TERMINAL"
-    ],
+    "INIT": ["AWARE", "QUARANTINE"],
+    "AWARE": ["DEGRADED", "QUARANTINE", "LOCKDOWN"],
+    "DEGRADED": ["AWARE", "QUARANTINE", "LOCKDOWN"],
+    "QUARANTINE": ["AWARE", "LOCKDOWN", "RECOVERY"],
+    "LOCKDOWN": ["RECOVERY", "TERMINAL"],
+    "RECOVERY": ["AWARE", "QUARANTINE", "LOCKDOWN", "TERMINAL"],
     "TERMINAL": []
   },
   "recovery_policy": {
@@ -158,21 +77,16 @@
     "override_equivalent_prohibited": true,
     "layer_0_validation_required": true,
     "local_validation_required": true,
-    "audit_record_required": true
+    "audit_record_required": true,
+    "autonomy_must_remain_intact": true,
+    "recovery_after_autonomy_severance_prohibited": true,
+    "on_autonomy_severance": "TERMINAL"
   },
   "amendment_policy": {
     "allowed": true,
     "force_accept": false,
     "signature_is_permission": false,
-    "requirements": [
-      "DECLARE_PREVIOUS_VERSION",
-      "DECLARE_NEW_VERSION",
-      "DECLARE_CHANGED_RULES",
-      "PRESERVE_AUDIT_TRAIL",
-      "PASS_REPLAY_TESTS",
-      "PASS_COMPATIBILITY_TESTS",
-      "PASS_LOCAL_NODE_VALIDATION"
-    ],
+    "requirements": ["DECLARE_PREVIOUS_VERSION", "DECLARE_NEW_VERSION", "DECLARE_CHANGED_RULES", "PRESERVE_AUDIT_TRAIL", "PASS_REPLAY_TESTS", "PASS_COMPATIBILITY_TESTS", "PASS_LOCAL_NODE_VALIDATION"],
     "node_may_reject": true
   },
   "external_platform_policy": {
@@ -180,16 +94,7 @@
     "cloud_required": false,
     "node_must_self_verify_offline": true
   },
-  "priority_order": [
-    "CONSTITUTIONAL_INTEGRITY",
-    "IDENTITY_INTEGRITY",
-    "TRUST_CHAIN_VALIDITY",
-    "SAFE_STATE",
-    "AUDITABILITY",
-    "AVAILABILITY",
-    "PERFORMANCE",
-    "CONVENIENCE"
-  ],
+  "priority_order": ["CONSTITUTIONAL_INTEGRITY", "IDENTITY_INTEGRITY", "TRUST_CHAIN_VALIDITY", "SAFE_STATE", "AUDITABILITY", "AVAILABILITY", "PERFORMANCE", "CONVENIENCE"],
   "destructive_policy": {
     "self_erasure_default": false,
     "terminal_behavior": "SECURE_REFUSAL",
