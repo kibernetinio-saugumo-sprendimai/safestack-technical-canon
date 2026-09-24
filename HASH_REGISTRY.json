@@ -1,4 +1,25 @@
 {
   "registry_version": "1.0.0",
-  "artifacts": []
+  "root_reference": "https://github.com/kibernetinio-saugumo-sprendimai/safestack-canon",
+  "artifacts": [
+    {
+      "name": "safestack-validation-registry/REGISTRY.json",
+      "sha256": "cb1e7ea061dd9a0b37788c833d3ee88247828d20a9e34d605ab18ed08c913cd2",
+      "status": "VALIDATED",
+      "role": "Validation Registry Root State"
+    },
+    {
+      "name": "safestack-project-public-keys/public-project-keys.json",
+      "canonical_sha256": "e93f04dc96ce5d828b04305c3c6f2342c25c8b3b0bc8659b31aab4686bc7ab78",
+      "file_sha256": "b22c77ca0e4d26314b3391a3fca8b21d1b5e36b870f264875842cc366d520687",
+      "status": "ROOT_SIGNED",
+      "role": "Project Public Keys Registry v1"
+    },
+    {
+      "name": "safestack-project-public-keys/release-signing/safestack-pi5-2026.pub",
+      "sha256": "c65a6ce40bf3d34289c38e34a3d7f410bf966248eab58ba6c1ece7346007d17e",
+      "status": "ACTIVE",
+      "role": "Release Signing SSH Key (SHA256:6bUvQeyGzXxDIUMnUyIoJPRbEeX3khAhRmYycwmgJq4)"
+    }
+  ]
 }
